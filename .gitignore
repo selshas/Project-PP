@@ -1,8 +1,19 @@
-*
-!*/
-
-# track this file
-!.gitignore
-
-# whitelist everything in ./config/
-!Assets/Scripts
+/
+/PP/.vs
+/PP/Assets/Spine
+/PP/Assets/TextMesh Pro
+/PP/Assets/Resources
+/PP/Library
+/PP/Build
+/PP/Logs
+/PP/obj
+/PP/ProjectSettings
+/PP/*.csproj
+/PP/UIElementsSchema
+/PP/UserSettings
+/PP/Packages
+*.sln
+*.meta
+*.unity
+*.vsconfig
+*.db
