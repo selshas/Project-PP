@@ -1,1 +1,8 @@
-*.meta
+*
+!*/
+
+# track this file
+!.gitignore
+
+# whitelist everything in ./config/
+!Assets/Scripts
