@@ -14,7 +14,8 @@ namespace PP.Game
         };
         public float reloadTime = 10.0f;
         public float spawnCooldown = 5.0f;
-        public float time = 0;
+        public float time_cooldownRemain = 0;
+        public float time_cooldownReload = 0;
         public ObjPool pool;
 
         Vector3 sensorRange = new Vector3(10.0f, 8.0f, 8.0f);
@@ -25,40 +26,27 @@ namespace PP.Game
             // Stock Depleted. Reload cycle
             if (stock.current <= 0)
             {
-                time += Time.fixedDeltaTime;
-                if (reloadTime <= time)
-                {
-                    time = spawnCooldown;
+                time_cooldownReload -= Time.fixedDeltaTime;
+                if (time_cooldownReload <= 0)
                     stock.current = stock.max;
-                }
             }
-
-            if (stock.current <= 0) return;
-
             // There is at least a remaining stock. procceed cooldown timer.
-            if (stock.current < stock.max)
+            else if (stock.current < stock.max)
             {
-                time += Time.fixedDeltaTime;
-
-                if (spawnCooldown <= time)
-                {
-                    stock.current++;
-                    if (stock.current == stock.max)
-                        time = 0;
-                    else
-                        time = time - spawnCooldown;
-                }
+                time_cooldownRemain -= Time.fixedDeltaTime;
             }
 
-            if (0 < stock.current && Sense() != null)
+            if (0 < stock.current && time_cooldownRemain <= 0 && Sense() != null)
             {
                 stock.current--;
+                if (stock.current <= 0) time_cooldownReload = reloadTime;
+                else time_cooldownRemain = spawnCooldown;
 
                 GameObject gameObj_newMob = pool.PullItem();
                 gameObj_newMob.transform.position = transform.position;
 
                 PP.Game.Damagable damagable = gameObj_newMob.GetComponent<PP.Game.Damagable>();
-                damagable.hp.current = damagable.hp.max;
+                damagable.hp.current = damagable.hp.max; 
             }
         }
 
