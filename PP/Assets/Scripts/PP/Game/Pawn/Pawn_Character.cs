@@ -29,8 +29,13 @@ namespace PP.Game
 
         public PP.Ability[] abilities = new PP.Ability[0];
 
-        public void UseAbility(int no) => abilities[no].OnActive();
-        
+        public void UseAbility(int no)
+        {
+            if (skillCastAllowed)
+            {
+                abilities[no].OnActive();
+            }
+        }
         public void AddStatusEffect(StatusEffect statusEffect)
         { 
             list_statusEffects.Add(statusEffect);
@@ -50,7 +55,7 @@ namespace PP.Game
             base.FixedUpdate();
             if (list_statusEffects.Count > 0)
             {
-                for (int i = 0; i<list_statusEffects.Count;i++) 
+                for (int i = 0; i < list_statusEffects.Count; i++)
                 {
                     StatusEffect statusEffect = list_statusEffects[i];
 
@@ -71,7 +76,7 @@ namespace PP.Game
             {
                 if (abilities[i].currentStock < abilities[i].maxStock[abilities[i].level])
                 {
-                    abilities[i].time_reload -= Time.fixedDeltaTime;
+                    abilities[i].time_reload -= Time.deltaTime;
                     if (abilities[i].time_reload <= 0)
                     {
                         abilities[i].currentStock++;
@@ -80,8 +85,13 @@ namespace PP.Game
                 }
 
                 if (abilities[i].time_cooldown > 0)
-                    abilities[i].time_cooldown -= Time.fixedDeltaTime;
+                    abilities[i].time_cooldown -= Time.deltaTime;
             }
+        }
+
+        override protected void Update()
+        {
+            base.Update();
         }
     }
 }

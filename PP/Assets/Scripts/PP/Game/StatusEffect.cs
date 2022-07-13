@@ -14,7 +14,7 @@
 
     public void Tick() 
     {
-        lifeTime -= UnityEngine.Time.fixedDeltaTime;
+        lifeTime -= UnityEngine.Time.deltaTime;
         if (lifeTime <= 0) OnEnd();
     }
 

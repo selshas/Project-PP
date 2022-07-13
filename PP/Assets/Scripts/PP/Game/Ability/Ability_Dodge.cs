@@ -33,6 +33,8 @@ namespace PP.Game.Ability
         {
             if (!base.OnActive()) return false;
 
+            if (!pawn_char.mobility) return false;
+
             pawn_char.animator.SetTrigger("Dodge");
             pawn_char.GetComponent<Rigidbody>().velocity = (Vector3.right * pawn_char.faceDirection * 13.0f);
             pawn_char.AddStatusEffect(new StatusEffect_Dodge(pawn_char, 0.5f));
