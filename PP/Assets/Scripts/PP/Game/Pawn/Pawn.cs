@@ -60,6 +60,8 @@ public class Pawn : MonoBehaviour
 
             animator?.SetFloat("YSpeed", GetComponent<Rigidbody>().velocity.y);
         }
+
+        if (mobility && isSpeedLimited) LimitSpeed();
     }
 
     protected virtual void FixedUpdate()
@@ -72,20 +74,23 @@ public class Pawn : MonoBehaviour
         if (!mobility) return;
 
         if (inputVector_moving.x != 0)
-        faceDirection = System.Math.Sign(inputVector_moving.x);
+            faceDirection = System.Math.Sign(inputVector_moving.x);
 
         rigidbody.AddForce(
             new Vector3(inputVector_moving.x, 0, inputVector_moving.z) * acceleration,
             ForceMode.Force
         );
-
+    }
+    public void LimitSpeed()
+    {
         Vector2 velocity_2d = new Vector2(
             rigidbody.velocity.x,
             rigidbody.velocity.z
         );
+        if (velocity_2d.magnitude == 0) return;
 
-        if (isSpeedLimited) velocity_2d = Vector2.ClampMagnitude(velocity_2d, maxSpeed * maxSpeed_mod);
-        
+        velocity_2d = Vector2.ClampMagnitude(velocity_2d, maxSpeed * maxSpeed_mod);
+
         rigidbody.velocity = new Vector3(velocity_2d.x, rigidbody.velocity.y, velocity_2d.y);
     }
 }

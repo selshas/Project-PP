@@ -91,6 +91,7 @@ namespace PP.Game
 
             prevPos = transform.position;
         }
+
         private void OnTriggerEnter(Collider other)
         {
             Vector3 deltaPosition = (transform.position - prevPos);
@@ -114,18 +115,18 @@ namespace PP.Game
                     if (damagable.owner == pawn_owner) continue;
 
                     Pawn_Character pawn_shot = damagable.owner.GetComponent<Pawn_Character>();
-                    //if (pawn_shot == null) Debug.Log(damagable.owner.gameObject.name);
                     if (damagable.owner == null) continue;
                     if (damagable.owner.team == pawn_owner.team) continue;
 
                     float edmg = damagable.Damage(damagePayload);
-                    
-                    if (pawn_owner == null) continue;
-                    EXPGatherer expGatherer = pawn_owner.GetComponent<EXPGatherer>();
-                    EXPProvider expProvider = pawn_shot.GetComponent<EXPProvider>();
 
-                    if (expGatherer != null && expProvider != null) 
-                        expProvider.RegistGathererHistory(expGatherer, edmg);
+                    // Check if the target pawn is expProvider and The Owner of this projectile is still alive
+                    EXPProvider expProvider = pawn_shot.GetComponent<EXPProvider>();
+                    if (expProvider != null && pawn_owner != null)
+                    {
+                        EXPGatherer expGatherer = pawn_owner.GetComponent<EXPGatherer>();
+                        if (expGatherer != null) expProvider.RegistGathererHistory(expGatherer, edmg);
+                    }
 
                     penetration--;
                     if (penetration <= 0)

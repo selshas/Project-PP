@@ -7,6 +7,7 @@ namespace PP.Game
     public class Pawn_Character : Pawn
     {
         public int skillPoint = 0;
+        public bool skillCastAllowed = true;
 
         Damagable damagable = null;
         Caster caster = null;

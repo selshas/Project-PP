@@ -1,4 +1,6 @@
-﻿public class StatusEffect_Dodge : StatusEffect
+﻿using UnityEngine;
+
+public class StatusEffect_Dodge : StatusEffect
 {
     int layer_original;
 
@@ -17,6 +19,5 @@
     {
         base.OnEnd();
         actor.gameObject.layer = layer_original;
-        actor.gameObject.layer = 6;
     }
 }

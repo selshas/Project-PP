@@ -7,7 +7,6 @@ public class AnimState_PC_Dodge : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.transform.parent.GetComponent<PP.Game.Pawn_Character>().isSpeedLimited = false;    
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -20,6 +19,7 @@ public class AnimState_PC_Dodge : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.transform.parent.GetComponent<PP.Game.Pawn_Character>().isSpeedLimited = true;
+        animator.transform.parent.GetComponent<PP.Game.Pawn_Character>().mobility = true;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
