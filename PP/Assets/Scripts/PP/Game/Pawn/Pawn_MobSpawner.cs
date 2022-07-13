@@ -37,11 +37,21 @@ namespace PP.Game
 
             // There is at least a remaining stock. procceed cooldown timer.
             if (stock.current < stock.max)
+            {
                 time += Time.fixedDeltaTime;
 
-            if (spawnCooldown <= time && Sense() != null)
+                if (spawnCooldown <= time)
+                {
+                    stock.current++;
+                    if (stock.current == stock.max)
+                        time = 0;
+                    else
+                        time = time - spawnCooldown;
+                }
+            }
+
+            if (0 < stock.current && Sense() != null)
             {
-                time = spawnCooldown - time;
                 stock.current--;
 
                 GameObject gameObj_newMob = pool.PullItem();
